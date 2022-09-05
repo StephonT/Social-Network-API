@@ -1,4 +1,5 @@
 const { Schema, model, Types } = require('mongoose');
+const dateFormat = require('../utils/dateFormat')
 
 //Reaction is a subdocument of Thought
 const ReactionSchema = new Schema ({
@@ -10,27 +11,30 @@ const ReactionSchema = new Schema ({
     reactionBody: {
         type: String,
         required: true,
-        maxlength: 280
+        maxlength: 280,
     },
 
     username: {
         type: String,
-        required: true
+        required: true,
     },
 
     createdAt: {
         type: Date,
         default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
-    }
+        get: (createdAtVal) => dateFormat(createdAtVal)
+    },
 },
 {
     toJSON: {
         getters: true
-    }
-});
+    },
+}
+);
 
-const ThoughtSchema = new Schema ({
+const ThoughtSchema = new Schema (
+    {
+
     thoughtText: {
         type: String,
         required: true,
@@ -41,7 +45,7 @@ const ThoughtSchema = new Schema ({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
+        get: (createdAtVal) => dateFormat(createdAtVal)
     },
 
     username: {

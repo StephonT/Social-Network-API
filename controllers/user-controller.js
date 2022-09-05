@@ -1,7 +1,8 @@
 const { User } = require('../models');
 
-
+//controller for User
 const userController = {
+    //get all users
 getAllUsers(req, res) {
     User.find({})
     //to populate thoughts
@@ -11,7 +12,7 @@ getAllUsers(req, res) {
     })
     //to populate friends
     .populate({
-        path: 'users',
+        path: 'friends',
         select: '-__v'
     })
     // to not invlude __v
@@ -35,18 +36,23 @@ getUserById({ params }, res) {
     })
     //to populate friends
     .populate({
-        path: 'users',
+        path: 'friends',
         select: '-__v'
     })
-    // to not invlude __v
+    // to not include __v
     .select('-__v')
-    // sort method to return newest pizza first
-    .sort({ _id: -1 })
-    .then(dbUserData => res.json(dbUserData))
+    // return if no user is found 
+    .then(dbUserData => {
+        if(!dbUserData) {
+            res.status(404).json({ message: 'No User found with this id!'});
+            return; 
+        }
+        res.json(dbUserData)
+    })
     .catch(err => {
         console.log(err);
-        res.status(500).json(err);
-    });
+        res.status(400).json(err)
+    })
 
 
 },
@@ -66,15 +72,12 @@ updateUser({ params, body }, res) {
         { new: true, runValidators: true})
         .then(dbUserData => {
             if (!dbUserData) {
-                res.status(400).json({ message: 'no user found with this id!'});
+                res.status(404).json({ message: 'no user found with this id!'});
                 return;
             }
             res.json(dbUserData);
         })
-        .catch(err => {
-            console.log(err);
-            res.status(400).json(err)
-        })
+        .catch(err => res.status(400).json(err))
 },
 
 // Adding friend to friend's list 
@@ -135,7 +138,7 @@ deleteUser({ params }, res) {
         })
         .catch(err => res.status(400).json(err));
     }
-}
+};
 
 //exporting controller
 module.exports = userController;
