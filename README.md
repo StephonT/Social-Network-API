@@ -20,7 +20,7 @@
   <br>
   Please view walkthrough video to demonstrate the API routes.
   <br>
-  <a href="https://drive.google.com/file/d/1BLshUF2Kaor9Yv55qNW94GOuJ_MT5X9C/view">API Route Walkthrough</a>
+  <a href="https://drive.google.com/file/d/1SEz1sQOgbEydKq9lwQIuMHqWwPD9cCzS/view">API Route Walkthrough</a>
 
   ## License
   This project is license under MIT
